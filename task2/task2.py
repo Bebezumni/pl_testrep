@@ -1,32 +1,36 @@
-from math import sqrt
 from sys import argv
 
+x = argv[1]
+y = argv[2]
 
-circle_file = argv[1]
-dot_file = argv[2]
+list1 = []
+list2 = []
 
-with open (circle_file, 'r') as f:
-    """Координаты центра окружности и её радиус"""
-    center = [float(i) for i in f.readline().strip().split(' ')]
-    radius = float(f.readline())
+# получаем координаты точки и радиуса
 
-with open (dot_file, 'r') as f:
-    """Координаты точки"""
-    for line in f.readlines():
-        coordinates = [float(i) for i in line.strip().split(' ')]
+with open(x) as file1:
+    for line in file1:
+        list1.append(list(map(float, line.strip('\n'))))
 
-        coordinates[0] -= center[0]
-        # X
-        coordinates[1] -= center[1]
-        # Y
+# получаем координаты точек
+with open(y) as file2:
+    for line in file2:
+        list2.append(list(map(float, line.strip('\n'))))
 
-        if coordinates[0]**2 + coordinates[1]**2 <= radius**2:
-            if radius == sqrt((coordinates[0])**2 + (coordinates[1])**2):
-                """Точка на окружности"""
-                print(0)
-            else:
-                """Точка внутри"""
-                print(1)
+x = list1[0][0]
+y = list1[0][1]
+r = list1[1][0]
+
+for i in range(len(list2)):
+    x_p = list2[i][0]
+    y_p = list2[i][1]
+    if len(list2) > 100:
+        print(f'Количество точек {len(list2)}, максимальное число точек: 100')
+        break
+    else:
+        if x_p == x or y_p == y:
+            print(int(0))
+        if (x - x_p)**2 / r**2 + (y - y_p)**2 / r**2 < 1:
+            print(int(1))
         else:
-            """Точка снаружи"""
-            print(2)
+            print(int(2))

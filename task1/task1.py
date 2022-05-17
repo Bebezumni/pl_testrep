@@ -1,21 +1,18 @@
-import sys
+from sys import argv
+
+n = int(argv[1])
+m = int(argv[2])
 
 
-n = int(sys.argv[1])
-m = int(sys.argv[2])
-
-number = 1
-line = []
-
-while '1' not in line:
-    if number + m - 1 > n:
-        number += m - n - 1
-        line.append(str(number))
-    else:
-        number += m - 1
-        line.append(str(number))
+def task1(n, m):
+    yield 1
+    for i in range(m-1, n*m, m-1):
+        x = i % n + 1
+        if x == 1:
+            return
+        yield x
 
 
-print('1', end='')
-for index in line[:-1]:
-    print(index, end='')
+result = list(task1(n, m))
+total = int(''.join(map(str, result)))
+print(total)

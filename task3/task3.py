@@ -1,34 +1,48 @@
 from sys import argv
 import json
-from typing import Union
+
+x = argv[1]
+y = argv[2]
+
+with open(x, "r") as tests:
+    tests_json = json.load(tests)
+
+with open(y, "r") as values:
+    values_json = json.load(values)
 
 
-tests = argv[1]
-values = argv[2]
+
+for i in tests_json['tests']:
+
+    for v in values_json['values']:
+        if i['id'] == v['id']:
+            i['value']=v['value']
+
+for i in tests_json['tests'][2]['values']:
+
+    for v in values_json['values']:
+        if i['id'] == v['id']:
+            i['value']=v['value']
+
+for i in tests_json['tests'][2]['values'][0]['values'][0]['values']:
+
+    for v in values_json['values']:
+        if i['id'] == v['id']:
+            i['value']=v['value']
+
+for i in tests_json['tests'][2]['values'][1]['values'][0]['values']:
+
+    for v in values_json['values']:
+        if i['id'] == v['id']:
+            i['value']=v['value']
+
+for i in tests_json['tests'][3]['values']:
+
+    for v in values_json['values']:
+        if i['id'] == v['id']:
+            i['value']=v['value']
 
 
-with open(tests, 'r') as f:
-    tests_json = json.load(f)
 
-
-with open(values, 'r') as f:
-    values_json = json.load(f)
-
-
-def recursive_search(tests: Union[dict, list]) -> None:
-    """"Рекурсивная функция поиска id в tests.json и добавления им value из values.json"""
-    if type(tests) == dict:
-        for instance in values_json['values']:
-            if instance['id'] == tests['id']:
-                tests['value'] = instance['value']
-        if 'values' in tests:
-            recursive_search(tests['values'])
-
-    elif type(tests) == list:
-        for instance in tests:
-            recursive_search(instance)
-        
-recursive_search(tests_json['tests'])
-
-with open('report.json', 'w') as f:
-    json.dump(tests_json, f)
+with open("report.json", "w") as write_file:
+    json.dump(tests_json, write_file)
